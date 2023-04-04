@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href = "../tasks/completed/">Completed Tasks</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href = "../tasks/newtask/">Ask New Task</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href = "../tasks/create/">Create New Task</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<main class = "container">
+    <div class = "row">
+        <div class = "col-md-6 offset-md-3 card card-body mt-5 center">
+            <h1 class = "text-center display-3 py-5">Tasks</h1>
+            <ul class = "list-group">
+                {% for task in tasks %}
+                
+                <a class = "list-group-item" href = "{% url 'task_detail' task.id %}">
+                <header class = "d-flex justify-content-between">
+                <h1 class = "fw-bold text-center"> {{task.title}} </h1>
+                <p>{{task.created}}</p>
+                </header>
+                <!--<p>{{task.description}}</p>-->
+
+                </a>
+
+                {% endfor %}
+                <ul>    
+        </div>
+    </div>
+</main>
+
+{% endblock content %}
+

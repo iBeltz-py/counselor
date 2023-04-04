@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class = "container">
+    <h1>Secret Counselor</h1>
+    <p>Secret Counselor will be your personal assistant, you can explain him your situation, so he can help you improve your relationship with friends and family.</p>
+    </div>
+    <div class = "home-container">
+        <div>
+        </div>
+        <div class = "container" style="overflow-y: scroll; height:400px; ">
+            {% for message in messages %}
+            <div >
+            {% if message.bygpt == True %}
+            <small>Secret Counselor:</small>
+            {% else %}
+            <small>{{message.user}}</small>
+            {% endif %}
+            <p>{{message.text}}</p>
+            <hr>
+            </div>
+        {% endfor %}
+        <hr>
+
+        </div>
+    
+    </div>
+    
+
+
+<div class = "comment-form container">
+<form action="" method = "POST" class = "card card-body mt-5">
+    {% csrf_token %}
+    <input type = "text" name="text", placeholder="Type message...">
+</form>
+
+</div>
+
+{% endblock content %}
+
+
+

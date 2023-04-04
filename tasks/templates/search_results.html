@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style type="text/css">
+	.profile-image{
+		max-height: 100px;
+		max-width: 100px;
+	}
+	.profile-image{
+		border-radius: 12px;
+	}
+	.card{
+		border-radius: 12px;
+	}
+	.friends-text{
+		color: #000;
+		font-weight: 500;
+	}
+	.friends-text-container{
+		border: 1px solid #cccccc;
+		border-radius: 12px;
+	}
+	.friends-btn:hover {
+		background-color: #bfbfbf;
+		border-color: #bfbfbf;
+	}
+	.dropdown-toggle::after { 
+		content: none; 
+	}
+	.profile-link{
+		color: #000;
+	}
+	.checkmark-icon{
+		color: green;
+	}
+	.cancel-icon{
+		color: red;
+	}
+</style>
+<style>
+    body{
+        margin-top:20px;
+        background:#eee;
+    }
+    .avatar.avatar-xl {
+        width: 5rem;
+        height: 5rem;
+    }
+    .avatar {
+        width: 2rem;
+        height: 2rem;
+        line-height: 2rem;
+        border-radius: 50%;
+        display: inline-block;
+        background: #ced4da no-repeat center/cover;
+        position: relative;
+        text-align: center;
+        color: #868e96;
+        font-weight: 600;
+        vertical-align: bottom;
+    }
+    .card {
+        background-color: #fff;
+        border: 0 solid #eee;
+        border-radius: 0;
+    }
+    .card {
+        margin-bottom: 30px;
+        -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,0.1), -1px 0 2px rgba(0,0,0,0.05);
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.1), -1px 0 2px rgba(0,0,0,0.05);
+    }
+    .card-body {
+        padding: 1.25rem;
+    }
+    .tile-link {
+        position: absolute;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 30;
+    }
+</style>
+<div class = "container">
+<form action="/search/" method = "POST" class = "card card-body mt-5">
+	{% csrf_token %}
+	<div class = "mb-3">
+		<label for="search">Search </label>
+		<input type = "text" name = "search" id= "search" class = "form-control" placeholder = "Search contacts">
+	</div>
+  </form>
+</div>
+<div class="container">
+	<div class="card p-2">
+
+		{% if accounts %}
+		<div class="d-flex flex-row flex-wrap">
+		{% for account in accounts %}
+		<div class="card flex-row flex-grow-1 p-2 mx-2 my-2 align-items-center"
+		
+			<div class="card-center px-2">
+			
+				{{account.0}}
+				
+			
+			
+			</div>
+			
+
+		
+		{% endfor %}
+		
+		{% else %} <!-- If no friends -->
+		<div class="d-flex flex-row flex-grow-1 justify-content-center align-items-center p-4">
+			<p>No results</p>
+		</div>
+		{% endif %}
+		</div>
+	</div>
+	
+</div>
+
+
+
+{% endblock content %}
+
+
+
+

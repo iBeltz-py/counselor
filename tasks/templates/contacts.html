@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    body{
+        margin-top:20px;
+        background:#eee;
+    }
+    .avatar.avatar-xl {
+        width: 5rem;
+        height: 5rem;
+    }
+    .avatar {
+        width: 2rem;
+        height: 2rem;
+        line-height: 2rem;
+        border-radius: 50%;
+        display: inline-block;
+        background: #ced4da no-repeat center/cover;
+        position: relative;
+        text-align: center;
+        color: #868e96;
+        font-weight: 600;
+        vertical-align: bottom;
+    }
+    .card {
+        background-color: #fff;
+        border: 0 solid #eee;
+        border-radius: 0;
+    }
+    .card {
+        margin-bottom: 30px;
+        -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,0.1), -1px 0 2px rgba(0,0,0,0.05);
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.1), -1px 0 2px rgba(0,0,0,0.05);
+    }
+    .card-body {
+        padding: 1.25rem;
+    }
+    .tile-link {
+        position: absolute;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 30;
+    }
+</style>
+<div class = "container">
+  <form action="/search/" method = "POST" class = "card card-body mt-5">
+    {% csrf_token %}
+    <div class = "mb-3">
+      <label for="search">Search </label>
+      <input type = "text" name = "search" id= "search" class = "form-control" placeholder = "Search contacts">
+    </div>
+    </form>
+  </div>
+<div class="container">
+    <div class="row">
+      {% for friend in friends %}
+      <div class="col-md-6 col-xl-4">                       
+        <div class="card">
+          <div class="card-body">
+            <div class="media align-items-center">
+              <div class="media-body overflow-hidden">
+                <h5 class="card-text mb-0">{{friend}}</h5>
+                <p class="card-text text-uppercase text-muted">Memora</p>
+                <p class="card-text">
+
+                  {{friend}}<br><abbr title="Phone"></abbr>
+                </p>
+              </div>
+            </div><a href="#" class="tile-link"></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+
+  {% endblock content %}

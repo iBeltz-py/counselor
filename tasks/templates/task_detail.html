@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+    <main class = "container">
+        <div class = "row">
+            <div class = "col-md-4 offset-md-4 mt-5 center">
+                <div class = "card card-body mt-5">
+                <header>
+                <h1>{{task.title}}</h1>
+                </header>
+                    <p>{{task.description}}</p>
+                    <p>Assigned: {{task.created}} </p>
+                    {% if task.datecompleted != None %}
+                    <p>Completed: {{task.datecompleted}}</p>
+                    {% endif %}
+            </div>
+                <form action = "{% url 'task_complete' task.id %}" method="POST" class = "card card-body mt-5">
+                    {% csrf_token %}
+                    <button class = "btn btn-primary">
+                        Complete
+                    </button>
+                    </form>
+                    
+                    <form action = "{% url 'delete_task' task.id %}" method="POST" class = "card card-body mt-5"> 
+                        {% csrf_token %}
+                        <button class = "btn btn-primary">
+                            Delete
+                        </button>
+                        </form>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+
+
+
