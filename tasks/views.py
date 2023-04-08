@@ -263,18 +263,8 @@ def asktask(request):
     return render(request,"tasks.html")
 @login_required   
 def contacts(request):
-    friendss = Friends.objects.filter(user1 = request.user)
-    friendss2 = Friends.objects.filter(user2 = request.user)
-    friends = []
-    friends2 = []
-    for friend in friendss:
-        if not friend in friends:
-            friends.append(friend.user2)
-    
-    for friend in friendss2:
-        if not friend in friends2:
-            friends2.append(friend.user1)
-    
+    friends = Friends.objects.filter(user1 = request.user)
+    friends2 = Friends.objects.filter(user2 = request.user)
     return render(request,"contacts.html",{
         "friends": friends,
         "friends2":friends2
