@@ -280,7 +280,7 @@ def account_search_view(request):
             #user = request.user
             accounts = [] # [(account1, True), (account2,False)]
             friends = []
-            friends = get_friends(request.user.username)
+            #friends = get_friends(request.user.username)
             isfriend = False
             for account in search_results:
                 for friend in friends:
