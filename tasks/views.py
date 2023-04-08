@@ -289,7 +289,6 @@ def account_search_view(request,*args,**kwargs):
                 if isfriend == False:
                     accounts.append((account, isfriend))
             context["accounts"] = accounts
-            print(accounts)
     return render(request, "search_results.html", context)
 @login_required               
 def get_friends(user):
@@ -301,8 +300,6 @@ def get_friends(user):
     friends2 = Friends.objects.filter(user2=user)
     for acc in friends2:
         friends.append(acc.user1)
-    print("My friends \n")
-    print (friends)
     return friends
           
 def contact_us(request):
