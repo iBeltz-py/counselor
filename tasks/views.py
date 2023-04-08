@@ -228,7 +228,18 @@ def asktask(request):
     mensajes.append(context)
     friends = Friends.objects.filter(user1 = request.user) 
     for friend in friends:
-        friend_description = CounselorData(user = friend.user1)
+        friend_description = CounselorData.objects.filter(user = friend.user1)
+        friend_description = friend_description.userdescription
+        context = {
+        "role" : "system", 
+        "content" : """
+            This is the user description of""" + friend.user1 + """
+            (if it is empty, it means that this user has not been given a description yet, just ignore it): 
+        """ + friend_description,
+        }
+        mensajes.append(context)
+    for friend in friends:
+        friend_description = CounselorData.objects.filter(user = friend.user2)
         friend_description = friend_description.userdescription
         context = {
         "role" : "system", 
