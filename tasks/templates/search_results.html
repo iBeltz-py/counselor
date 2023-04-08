@@ -92,30 +92,30 @@
   </form>
 </div>
 <div class="container">
-	<div class="card p-2">
-
-		{% if accounts %}
-		<div class="d-flex flex-row flex-wrap">
+	<h2>Click a contact to add it to your list.</h2>
+	  <div class="row">
 		{% for account in accounts %}
-		<div class="card flex-row flex-grow-1 p-2 mx-2 my-2 align-items-center"
-		
-			<div class="card-center px-2">
-			
-				{{account.0}}
-				
-			
-			
+		{% if account.1 == False %}
+		<div class="col-md-6 col-xl-4">                       
+		  <div class="card">
+			<div class="card-body">
+			  <div class="media align-items-center">
+				<div class="media-body overflow-hidden">
+				  <h5 class="card-text mb-0">{{account.0}}</h5>
+				  <p class="card-text text-uppercase text-muted"></p>
+				  <p class="card-text">
+  
+					{{account.created}}<br><abbr title="Phone"></abbr>
+				  </p>
+				</div>
+			  </div><a href = "{% url 'add_contact' account.0 %}" class="tile-link"></a>
 			</div>
-			
-
-		
-		{% endfor %}
-		
-		{% else %} <!-- If no friends -->
-		<div class="d-flex flex-row flex-grow-1 justify-content-center align-items-center p-4">
-			<p>No results</p>
+		  </div>
 		</div>
 		{% endif %}
+		{% endfor %}
+		
+
 		</div>
 	</div>
 	

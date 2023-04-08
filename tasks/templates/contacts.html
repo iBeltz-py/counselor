@@ -56,6 +56,7 @@
     </form>
   </div>
 <div class="container">
+  <h2>Click a contact to remove it from your list.</h2>
     <div class="row">
       {% for friend in friends %}
       <div class="col-md-6 col-xl-4">                       
@@ -63,14 +64,32 @@
           <div class="card-body">
             <div class="media align-items-center">
               <div class="media-body overflow-hidden">
-                <h5 class="card-text mb-0">{{friend}}</h5>
-                <p class="card-text text-uppercase text-muted">Memora</p>
+                <h5 class="card-text mb-0">{{friend.user2}}</h5>
+                <p class="card-text text-uppercase text-muted"></p>
                 <p class="card-text">
 
-                  {{friend}}<br><abbr title="Phone"></abbr>
+                  {{friend.created}}<br><abbr title="Phone"></abbr>
                 </p>
               </div>
-            </div><a href="#" class="tile-link"></a>
+            </div><a href = "{% url 'remove_contact' friend.user2 %}" class="tile-link"></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% for friend in friends2 %}
+      <div class="col-md-6 col-xl-4">                       
+        <div class="card">
+          <div class="card-body">
+            <div class="media align-items-center">
+              <div class="media-body overflow-hidden">
+                <h5 class="card-text mb-0">{{friend.user1}}</h5>
+                <p class="card-text text-uppercase text-muted"></p>
+                <p class="card-text">
+
+                  {{friend.created}}<br><abbr title="Phone"></abbr>
+                </p>
+              </div>
+            </div><a href = "{% url 'remove_contact' friend.user1 %}" class="tile-link"></a>
           </div>
         </div>
       </div>

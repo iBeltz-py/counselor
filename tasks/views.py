@@ -18,9 +18,8 @@ from django.contrib.auth.decorators import login_required
 from .apis import get_userapi
 from .apis import get_orgid
 import openai
-from .models import FriendList
-from .models import FriendRequest
 from .forms import ContactUsForm
+from .models import Friends
 # Create your views here.
 def home(request):
     return render(request,"home.html")
@@ -63,7 +62,6 @@ def signin(request):
         
     else:
         user = authenticate(request,username = request.POST["username"], password = request.POST["password"])
-        print("hi")
         if user is None:
             return render(request,"signin.html",{
                 "form":AuthenticationForm,
@@ -122,8 +120,7 @@ def completed_tasks(request):
     tasks = Task.objects.filter(user = request.user, datecompleted__isnull=False)
     return render(request,"tasks_completed.html",{
         "tasks":tasks
-    })
-    
+    })  
 def chat(request):
     messages = Messages.objects.filter(user = request.user)
     res = messages[::-1]
@@ -135,8 +132,6 @@ def chat(request):
             "messages": res,
         })
     else:
-        openai.api_key = get_userapi()
-        openai.organization= get_orgid()
         message = Messages.objects.create(
         text = request.POST.get("text"),  
         created =   models.DateTimeField(auto_now_add=True),
@@ -177,12 +172,10 @@ def chat(request):
         return render(request, "chat.html", {
             "messages": res,
         })        
-
 def asktask(request):
-    openai.api_key = get_userapi()
-    openai.organization= get_orgid()
-    user_data = CounselorData.objects.filter(user = request.user)
-    if user_data:
+    userdesc = ""
+    hehe = 0
+    if hehe:
         pass
     else:
         pass
@@ -214,12 +207,13 @@ def asktask(request):
         response = openai.ChatCompletion.create(
             model = "gpt-3.5-turbo", messages = mensaje,
         ) 
-        response_content = response.choices[0].message.content 
-        print(response_content)
-        return render(request,"tasks.html")
+        userdesc = response.choices[0].message.content 
+        print(userdesc)
+        data = CounselorData(user = request.user, userdescription = userdesc)
+        data.save()
+        #return render(request,"tasks.html")
         
-    user_data = CounselorData.objects.filter(user = request.user)
-    description = user_data[0].userdescription
+    description = userdesc
     print(description)
     context = {
         "role" : "system", 
@@ -234,7 +228,9 @@ def asktask(request):
         "role" : "system", 
         "content" : """
             Create a VERY VERY VERY specific task, for slowly improving the situiation of this person, (I mean very specific, task that is not
-            too direct, for example, is someone feels his marriage is losing magic, a task example would be something like: Send him a good morning message).
+            too direct, for example, if someone feels his marriage is losing magic, a task example would be something like: Send him a good morning message).
+            REMEMBER IT MUST BE A VERY SPECIFIC TASK, ONLY ONE TASK, NO MORE.
+            The task must be written directly to the user, and it should be completed within a week.
             The situation of the user is as follows: 
             
         """ + description,
@@ -243,19 +239,38 @@ def asktask(request):
     response = openai.ChatCompletion.create(
          model = "gpt-3.5-turbo", messages = mensajes,
     ) 
-    response_content = response.choices[0].message.content 
-    print(response_content)        
+    task = response.choices[0].message.content 
+    print(task)  
+    task2 = {"role":"assistant", "content":task}
+    mensajes.append(task2)
+    context3 = {
+        "role" : "system", 
+        "content" : """
+            Now tell me a short title for this task.
+            
+        """ + description,
+    }
+    mensajes.append(context3)
+    response = openai.ChatCompletion.create(
+         model = "gpt-3.5-turbo", messages = mensajes,
+    ) 
+    title = response.choices[0].message.content 
+    print(title)     
+    new_task = Task(
+        title = title, description=task, bygpt = True, user = request.user
+    )
+    new_task.save()  
     return render(request,"tasks.html")
-
-
-
+@login_required   
 def contacts(request):
-    print("hi")
+    friends = Friends.objects.filter(user1 = request.user)
+    friends2 = Friends.objects.filter(user2 = request.user)
     return render(request,"contacts.html",{
-        "friends": ["Julian","Marta","kslfj"]
+        "friends": friends,
+        "friends2":friends2
+        
     })
-
-
+@login_required   
 def account_search_view(request,*args,**kwargs):
     context = {}
     if request.method == "POST":
@@ -264,12 +279,32 @@ def account_search_view(request,*args,**kwargs):
             search_results = User.objects.filter(username__icontains = search_query)
             #user = request.user
             accounts = [] # [(account1, True), (account2,False)]
+            friends = []
+            friends = get_friends(request.user)
+            isfriend = False
             for account in search_results:
-                accounts.append((account, False))
+                for friend in friends:
+                    if str(account) == str(friend):
+                        isfriend = True
+                if isfriend == False:
+                    accounts.append((account, isfriend))
             context["accounts"] = accounts
+            print(accounts)
     return render(request, "search_results.html", context)
-            
-            
+@login_required               
+def get_friends(user):
+    friends = []
+    friends1 = Friends.objects.filter(user1=user)
+    for acc in friends1:
+        friends.append(acc.user2)
+        
+    friends2 = Friends.objects.filter(user2=user)
+    for acc in friends2:
+        friends.append(acc.user1)
+    print("My friends \n")
+    print (friends)
+    return friends
+          
 def contact_us(request):
     if request.method == "GET":
         return render(request,"contact_us.html",{
@@ -291,4 +326,25 @@ def contact_us(request):
             "form": ContactUsForm,
             "error": "Something did not work."
         })         
-
+@login_required   
+def add_contact(request,user2):
+    f = Friends(user1 = request.user, user2 = user2)
+    f.save()
+    friends = Friends.objects.filter(user1 = request.user)
+    friends2 = Friends.objects.filter(user2 = request.user)
+    return render(request,"contacts.html",{
+        "friends": friends,
+        "friends2":friends2
+        
+    })
+@login_required       
+def remove_contact(request,user2):
+    Friends.objects.filter(user1=request.user, user2=user2).delete()
+    Friends.objects.filter(user2=request.user, user1=user2).delete()
+    friends = Friends.objects.filter(user1 = request.user)
+    friends2 = Friends.objects.filter(user2 = request.user)
+    return render(request,"contacts.html",{
+        "friends": friends,
+        "friends2":friends2
+        
+    })

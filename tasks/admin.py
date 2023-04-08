@@ -2,8 +2,7 @@ from django.contrib import admin
 from .models import Task
 from .models import Messages
 from .models import CounselorData
-from .models import FriendList, FriendRequest
-from .models import ContactUs
+from .models import Friends
 # Register your models here.
 
 
@@ -18,30 +17,16 @@ class MessagesAdmin(admin.ModelAdmin):
 class CounselorDataAdmin(admin.ModelAdmin):
     readonly_fields = ("created", )
 
-class FriendListAdmin(admin.ModelAdmin):
-       list_filter = ["user"]
-       list_display=["user"]
-       search_fields= ["user"]
-       readonly_fields = ["user"]
-       
-       class Meta:
-           model = FriendList
+class ContactsAdmin(admin.ModelAdmin):
+    readonly_fields = ("created", )
 
-class FriendRequestAdmin(admin.ModelAdmin):
-    list_filter = ["sender", "receiver"]
-    list_display = ["sender", "receiver"]
-    search_fields = ["sender__username", "receiver__email","receiver__email", "receiver__username"]
-    class Meta:
-        model = FriendRequest
-
-
+class FriendsAdmin(admin.ModelAdmin):
+    readonly_fields=("created", )
 
 admin.site.register(Task,TaskAdmin)
 admin.site.register(Messages,MessagesAdmin)
 admin.site.register(CounselorData,CounselorDataAdmin)
-admin.site.register(FriendList,FriendListAdmin)
-admin.site.register(FriendRequest,FriendRequestAdmin)
-admin.site.register(ContactUs,ContactUsAdmin)
+admin.site.register(Friends,FriendsAdmin)
 
 
 
