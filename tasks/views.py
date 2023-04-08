@@ -178,7 +178,7 @@ def asktask(request):
     if hehe:
         pass
     else:
-        pass
+        CounselorData.objects.filter(user = request.user).delete()
         context = {
             "role" : "system", 
             "content" : """
