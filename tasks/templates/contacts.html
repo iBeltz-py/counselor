@@ -58,6 +58,7 @@
 <div class="container">
   <h2>Click a contact to remove it from your list.</h2>
     <div class="row">
+      {% if len(friends) >= 1 %}
       {% for friend in friends %}
       <div class="col-md-6 col-xl-4">                       
         <div class="card">
@@ -89,6 +90,7 @@
         </div>
       </div>
       {% endfor %}
+      {% endif %}
     </div>
   </div>
 
