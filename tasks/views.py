@@ -263,8 +263,16 @@ def asktask(request):
     return render(request,"tasks.html")
 @login_required   
 def contacts(request):
+
+    for row in Friends.objects.all().reverse():
+        if Friends.objects.filter(user1 = request.user).count() > 1:
+            row.delete()
+        if Friends.objects.filter(user2 = request.user).count() > 1:
+            row.delete()
     friends = Friends.objects.filter(user1 = request.user)
     friends2 = Friends.objects.filter(user2 = request.user)
+    
+    
     return render(request,"contacts.html",{
         "friends": friends,
         "friends2":friends2
@@ -288,7 +296,7 @@ def account_search_view(request):
                     if str(account) == str(friend):
                         isfriend = True
                         """
-                if not account in accounts:
+                if isfriend == False:
                     accounts.append((account, isfriend))
             context["accounts"] = accounts
     return render(request, "search_results.html", context)
