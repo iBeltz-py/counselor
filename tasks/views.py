@@ -290,26 +290,26 @@ def account_search_view(request):
             #user = request.user
             accounts = [] # [(account1, True), (account2,False)]
             friends = []
-            #friends = get_friends(request.user.username)
+            friends = get_friends(request)
             isfriend = False
             for account in search_results:
-                """                
+                               
                 for friend in friends:
                     if str(account) == str(friend):
                         isfriend = True
-                        """
+                        
                 if isfriend == False:
                     accounts.append((account, isfriend))
             context["accounts"] = accounts
     return render(request, "search_results.html", context)
 @login_required               
-def get_friends(user):
+def get_friends(request):
     friends = []
-    friends1 = Friends.objects.filter(user1=user)
+    friends1 = Friends.objects.filter(user1=request.user)
     for acc in friends1:
         friends.append(acc)
         
-    friends2 = Friends.objects.filter(user2=user)
+    friends2 = Friends.objects.filter(user2=request.user)
     for acc in friends2:
         friends.append(acc)
     return friends
