@@ -283,9 +283,11 @@ def account_search_view(request):
             #friends = get_friends(request.user.username)
             isfriend = False
             for account in search_results:
+                """                
                 for friend in friends:
                     if str(account) == str(friend):
                         isfriend = True
+                        """
                 if isfriend == False:
                     accounts.append((account, isfriend))
             context["accounts"] = accounts
