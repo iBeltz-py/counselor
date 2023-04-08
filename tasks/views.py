@@ -263,15 +263,17 @@ def asktask(request):
     return render(request,"tasks.html")
 @login_required   
 def contacts(request):
-
-    for row in Friends.objects.all().reverse():
-        if Friends.objects.filter(user1 = request.user).count() > 1:
-            row.delete()
-        if Friends.objects.filter(user2 = request.user).count() > 1:
-            row.delete()
-    friends = Friends.objects.filter(user1 = request.user)
-    friends2 = Friends.objects.filter(user2 = request.user)
+    friendss = Friends.objects.filter(user1 = request.user)
+    friendss2 = Friends.objects.filter(user2 = request.user)
+    friends = []
+    friends2 = []
+    for friend in friendss:
+        if not friend in friends:
+            friends.append(friend.user2)
     
+    for friend in friendss2:
+        if not friend in friends2:
+            friends2.append(friend.user1)
     
     return render(request,"contacts.html",{
         "friends": friends,
