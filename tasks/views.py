@@ -288,7 +288,7 @@ def account_search_view(request):
                     if str(account) == str(friend):
                         isfriend = True
                         """
-                if isfriend == False:
+                if not account in accounts:
                     accounts.append((account, isfriend))
             context["accounts"] = accounts
     return render(request, "search_results.html", context)
