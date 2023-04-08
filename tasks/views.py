@@ -271,7 +271,7 @@ def contacts(request):
         
     })
 @login_required   
-def account_search_view(request,*args,**kwargs):
+def account_search_view(request):
     context = {}
     if request.method == "POST":
         search_query = request.POST.get("search")
@@ -295,11 +295,11 @@ def get_friends(user):
     friends = []
     friends1 = Friends.objects.filter(user1=user)
     for acc in friends1:
-        friends.append(acc.user2)
+        friends.append(acc)
         
     friends2 = Friends.objects.filter(user2=user)
     for acc in friends2:
-        friends.append(acc.user1)
+        friends.append(acc)
     return friends
           
 def contact_us(request):
