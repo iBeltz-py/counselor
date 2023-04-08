@@ -221,12 +221,27 @@ def asktask(request):
             You are a psychologist who is conducting a diagnosis on a patient. You must be aware of all their problems and limit yourself to requesting information 
             and asking questions about these problems. This is a social assistance website, designed to help people improve their personal relationships. You should have a 
             friendly and calm manner of speaking, making your patient feel comfortable, but not talking too much. Limit yourself to asking questions and gathering information 
-            in order to make a diagnosis.
+            in order to make a diagnosis. I will now provide you with information about all the users who have some kind of relationship with this user.
         """,
         }
+    mensajes = []
+    mensajes.append(context)
+    friends = Friends.objects.filter(user1 = request.user) 
+    for friend in friends:
+        friend_description = CounselorData(user = friend.user1)
+        friend_description = friend_description.userdescription
+        context = {
+        "role" : "system", 
+        "content" : """
+            This is the user description of""" + friend.user1 + """
+            (if it is empty, it means that this user has not been given a description yet, just ignore it): 
+        """ + friend_description,
+        }
+        mensajes.append(context)
     context2 = {
         "role" : "system", 
         "content" : """
+            You will now assign a task to the main user:
             Create a VERY VERY VERY specific task, for slowly improving the situiation of this person, (I mean very specific, task that is not
             too direct, for example, if someone feels his marriage is losing magic, a task example would be something like: Send him a good morning message).
             REMEMBER IT MUST BE A VERY SPECIFIC TASK, ONLY ONE TASK, NO MORE.
@@ -235,7 +250,7 @@ def asktask(request):
             
         """ + description,
     }
-    mensajes = [context,context2]
+    mensajes.append(context2)
     response = openai.ChatCompletion.create(
          model = "gpt-3.5-turbo", messages = mensajes,
     ) 
