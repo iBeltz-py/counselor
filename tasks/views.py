@@ -235,6 +235,7 @@ def asktask(request):
             too direct, for example, if someone feels his marriage is losing magic, a task example would be something like: Send him a good morning message).
             REMEMBER IT MUST BE A VERY SPECIFIC TASK, ONLY ONE TASK, NO MORE.
             The task must be written directly to the user, and it should be completed within a week.
+            Do not type Task: at the beginning, nor quote the task, just say the task as a normal message.
             The situation of the user is as follows: 
             
         """ + description,
@@ -251,6 +252,7 @@ def asktask(request):
         "role" : "system", 
         "content" : """
             Now tell me a short title for this task.
+            JUST send the title, do not write any introduction, do not quote it or anything else.
             
         """ + description,
     }
@@ -264,7 +266,10 @@ def asktask(request):
         title = title, description=task, bygpt = True, user = request.user
     )
     new_task.save()  
-    return render(request,"tasks.html")
+    tasks = Task.objects.filter(user = request.user, datecompleted__isnull=True)
+    return render(request,"tasks.html",{
+        "tasks":tasks
+    })
 @login_required   
 def contacts(request):
     friends = Friends.objects.filter(user1 = request.user)
