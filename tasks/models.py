@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils import timezone
 # Create your models here.
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 class Task(models.Model):
     title = models.CharField(max_length=100)
@@ -41,3 +42,17 @@ class Friends(models.Model):
     user1 = models.CharField(max_length=100)
     user2 = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
+    
+    
+class UserCreationForm(UserCreationForm):
+    email = models.EmailField(("Email address"), max_length=254)
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+        return user
