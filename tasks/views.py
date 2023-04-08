@@ -221,34 +221,12 @@ def asktask(request):
             You are a psychologist who is conducting a diagnosis on a patient. You must be aware of all their problems and limit yourself to requesting information 
             and asking questions about these problems. This is a social assistance website, designed to help people improve their personal relationships. You should have a 
             friendly and calm manner of speaking, making your patient feel comfortable, but not talking too much. Limit yourself to asking questions and gathering information 
-            in order to make a diagnosis. I will now provide you with information about all the users who have some kind of relationship with this user.
+            in order to make a diagnosis. 
         """,
         }
     mensajes = []
     mensajes.append(context)
-    friends = Friends.objects.filter(user1 = request.user) 
-    for friend in friends:
-        friend_description = CounselorData.objects.filter(user = friend.user1)
-        friend_description = friend_description.userdescription
-        context = {
-        "role" : "system", 
-        "content" : """
-            This is the user description of""" + friend.user1 + """
-            (if it is empty, it means that this user has not been given a description yet, just ignore it): 
-        """ + friend_description,
-        }
-        mensajes.append(context)
-    for friend in friends:
-        friend_description = CounselorData.objects.filter(user = friend.user2)
-        friend_description = friend_description.userdescription
-        context = {
-        "role" : "system", 
-        "content" : """
-            This is the user description of""" + friend.user1 + """
-            (if it is empty, it means that this user has not been given a description yet, just ignore it): 
-        """ + friend_description,
-        }
-        mensajes.append(context)
+
     context2 = {
         "role" : "system", 
         "content" : """
