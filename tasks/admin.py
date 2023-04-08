@@ -3,6 +3,7 @@ from .models import Task
 from .models import Messages
 from .models import CounselorData
 from .models import Friends
+from .models import ContactUs
 # Register your models here.
 
 
@@ -27,6 +28,7 @@ admin.site.register(Task,TaskAdmin)
 admin.site.register(Messages,MessagesAdmin)
 admin.site.register(CounselorData,CounselorDataAdmin)
 admin.site.register(Friends,FriendsAdmin)
+admin.site.register(ContactUs, ContactUsAdmin)
 
 
 
