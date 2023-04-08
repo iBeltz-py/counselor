@@ -33,7 +33,7 @@ def signup(request):
             print(request.POST)
             try:
                 #User = User.objects.create_user(username=request.POST["username"],password=request.POST["password1"])
-                user = User.objects.create_user(username = request.POST['username'], password = request.POST['password1'])
+                user = User.objects.create_user(username = request.POST['username'], email = request.POST["email"], password = request.POST['password1'])
 
                 user.save()
                 login(request, user)
