@@ -17,14 +17,6 @@ from django.contrib import admin
 from django.urls import path
 from tasks import views
 from wsppwebhook import views 
-weebhooks = [
-    
-    path(
-        "t"
-        
-    )
-]
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
