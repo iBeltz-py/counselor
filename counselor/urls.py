@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from tasks import views
-from wsppwebhook import views as wspp
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
