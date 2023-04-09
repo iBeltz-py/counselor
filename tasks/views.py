@@ -374,14 +374,14 @@ def webhook(request):
         print(json.dumps(body, indent=2))
 
         # Check if the request is from WhatsApp API
-        if body.get('object') == 'page':
-            for entry in body['entry']:
-                for change in entry['changes']:
-                    if change.get('value') and change['value'].get('messages'):
-                        message = change['value']['messages'][0]
-                        phone_number_id = change['value']['metadata']['phone_number_id']
-                        sender = message['from']
-                        text = message['text']['body']
+
+        for entry in body['entry']:
+            for change in entry['changes']:
+                if change.get('value') and change['value'].get('messages'):
+                    message = change['value']['messages'][0]
+                    phone_number_id = change['value']['metadata']['phone_number_id']
+                    sender = message['from']
+                    text = message['text']['body']
 
         # Print sender and message text
         
