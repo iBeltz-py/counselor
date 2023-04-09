@@ -364,3 +364,6 @@ def webhook(request):
     if request.method == 'POST':
         print("Data received from Webhook is: ", request.body)
         return render(request,"home.html")
+    else:
+        print("Data received from Webhook is: ", request.body)
+        return render(request,"home.html")        
