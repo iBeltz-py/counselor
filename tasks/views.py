@@ -364,6 +364,8 @@ def webhook(request):
     if request.method == 'POST':
         print("Data received from Webhook is: ", request.body)
         print(request.hub_challenge)
+        challenge = str(request.hub_challenge).split("&")
+        print(challenge[1])
         HttpResponse(request.hub_challenge)
         return HttpResponse(status=200)   
     else:
