@@ -365,3 +365,7 @@ def webhook(request):
     if request.method == 'GET':
         hub_challenge = request.GET.get('hub.challenge')
         return HttpResponse(hub_challenge)
+    
+    else:
+        print(request)
+        return HttpResponse(200)
