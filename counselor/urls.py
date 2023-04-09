@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from tasks import views
-from wsppwebhook import views as wspp
+from wsppwebhook import views 
 weebhooks = [
     
     path(
@@ -46,6 +46,6 @@ urlpatterns = [
     path('tasks/<int:task_id>/complete/',views.task_complete, name = "task_complete"),
     path('tasks/<int:task_id>/delete/',views.delete_task, name = "delete_task"),
     path('tasks/completed/',views.completed_tasks, name = "completed_tasks"),
-    path("wsppwebhook/",wspp.webhook, name = "wsppwebhook")
+    path("wsppwebhook/",views.webhook, name = "wsppwebhook")
     
 ]
