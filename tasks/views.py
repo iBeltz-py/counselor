@@ -367,5 +367,23 @@ def webhook(request):
         return HttpResponse(hub_challenge)
     
     else:
-        print(request)
-        return HttpResponse(200)
+        # Parse the request body from the POST
+        body = json.loads(request.body.decode('utf-8'))
+
+        # Check the Incoming webhook message
+        print(json.dumps(body, indent=2))
+
+        # Check if the request is from WhatsApp API
+        if body.get('object') == 'page':
+            for entry in body['entry']:
+                for change in entry['changes']:
+                    if change.get('value') and change['value'].get('messages'):
+                        message = change['value']['messages'][0]
+                        phone_number_id = change['value']['metadata']['phone_number_id']
+                        sender = message['from']
+                        text = message['text']['body']
+                        # Do whatever you want with the received message here
+                        print(f"Received message from {sender}: {text}")
+                        # Send a response to the message
+                        # ...
+        return HttpResponse(status=200)
