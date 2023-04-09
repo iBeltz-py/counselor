@@ -8,4 +8,4 @@ from django.views.decorators.csrf import csrf_exempt
 def webhook(request):
     if request.method == 'POST':
         print("Data received from Webhook is: ", request.body)
-        return HttpResponse("Webhook received!")
+        return render(request,"home.html")
