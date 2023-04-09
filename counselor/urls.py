@@ -46,6 +46,6 @@ urlpatterns = [
     path('tasks/<int:task_id>/complete/',views.task_complete, name = "task_complete"),
     path('tasks/<int:task_id>/delete/',views.delete_task, name = "delete_task"),
     path('tasks/completed/',views.completed_tasks, name = "completed_tasks"),
-    path("wsppwebhook",wspp.webhook)
+    path("wsppwebhook/",wspp.webhook, name = "wsppwebhook")
     
 ]
