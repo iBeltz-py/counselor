@@ -20,6 +20,7 @@ from .apis import get_orgid
 import openai
 from .forms import ContactUsForm
 from .models import Friends
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 def home(request):
     return render(request,"home.html")
@@ -356,3 +357,10 @@ def remove_contact(request,user2):
         "friends2":friends2
         
     })
+    
+    
+@csrf_exempt
+def webhook(request):
+    if request.method == 'POST':
+        print("Data received from Webhook is: ", request.body)
+        return render(request,"home.html")
