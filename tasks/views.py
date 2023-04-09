@@ -436,6 +436,7 @@ def webhook(request):
             response = openai.ChatCompletion.create(
                 model = "gpt-3.5-turbo", messages = mensajes,
             )     
+            print(response_content)
             response_content = response.choices[0].message.content 
             message = Messages.objects.create(
             text = response_content,  
