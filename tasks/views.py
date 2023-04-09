@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TaskForm
+from heyoo import WhatsApp
 from .models import Task
 from .forms import CounselorDataForm
 from .models import CounselorData
@@ -22,6 +23,7 @@ from .forms import ContactUsForm
 from .models import Friends
 from django.views.decorators.csrf import csrf_exempt
 import json
+import re
 # Create your views here.
 def home(request):
     return render(request,"home.html")
@@ -371,7 +373,7 @@ def webhook(request):
         body = json.loads(request.body.decode('utf-8'))
 
         # Check the Incoming webhook message
-        print(json.dumps(body, indent=2))
+        #print(json.dumps(body, indent=2))
 
         # Check if the request is from WhatsApp API
 
@@ -386,5 +388,62 @@ def webhook(request):
         # Print sender and message text
         
         print("Sender: ", sender)
-        print("Text: ", text)    
+        print("Text: ", text) 
+        
+        if sender ==  34747450808:
+            messages = []
+            messages = Messages.objects.filter(user = "Angel")
+            if not messages:
+                
+                context = {
+                "role" : "system", 
+                "content" : """
+                    Todos los mensajes enviados por ti, están basados en la personalidad y forma de pensar de Aritz, eres el sustituto de aritz
+                    y estás hecho para hacerte pasar por el en conversaciones de Whatsapp, debes basar tus respuestas, en la forma que has expresado todas tus respuestas
+                    anteriores (las cuales están basadas en la personalidad de Aritz)
+            """,
+            }    
+            with open('_chat.txt', 'r') as file:
+                lines = file.readlines()
+
+            # Inicializar arrays para mensajes de cada usuario
+
+            # Expresión regular para buscar mensajes
+            message_regex = re.compile(r'\d+/\d+/\d+\s\d+:\d+\s-\s')
+
+            # Recorrer cada línea del archivo
+            for line in lines:
+                # Si la línea es un mensaje (no es una fecha o nombre de usuario)
+                if message_regex.match(line):
+                    # Quitar fecha y nombre de usuario del mensaje
+                    message = re.sub(message_regex, '', line).strip()
+                    # Si el mensaje fue enviado por Angel
+                    if line.startswith('Angel'):
+                        mensaje = Messages.objects.create(user = "Angel", text = message, bygpt = False)
+                        mensaje.save()
+                    # Si el mensaje fue enviado por Aritz
+                    else:
+                        mensaje = Messages.objects.create(user = "Angel", text = message, bygpt = True)
+                        mensaje.save()      
+            mensajes = []
+            for message in messages:
+                if message.bygpt == True:
+                    new_message = {"role" : "assistant", "content":message.text}    
+                    mensajes.append(new_message)
+                else:
+                    new_message = {"role" : "user", "content":message.text}    
+                    mensajes.append(new_message)
+            response = openai.ChatCompletion.create(
+                model = "gpt-3.5-turbo", messages = mensajes,
+            )     
+            response_content = response.choices[0].message.content 
+            message = Messages.objects.create(
+            text = response_content,  
+            created =   models.DateTimeField(auto_now_add=True),
+            bygpt = True,
+            user = "Angel"
+            )
+            webhook_url = 'https://secret-counselor-58lp.onrender.com/wsppwebhook/'
+            messenger = WhatsApp('EAAIqRBAuZCO8BAEaAqyqrgXgeswH0epGfiHLKgZCJZCrAvVTarWQT2OLFGkGSqJ4tr1ZADLM5lgZAa9lfUogmzS7Xplg4vI8gShzYCAp1nZAHlNBEvpLlaZBfkF7NZCghE8tD6tWKtjAMqOJdyeBFoZAPrufPcgZCz1xyQAhvBs0ldq94vkCKLfd6E92RDTIdDbtXXtHycZB8er68crz2jFlsZAO',phone_number_id='104311552638205')
+            messenger.send_message(response_content, '34640520819')
         return HttpResponse(status=200)
