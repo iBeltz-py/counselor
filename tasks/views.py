@@ -390,9 +390,9 @@ def webhook(request):
         print("Sender: ", sender)
         print("Text: ", text) 
         
-        if sender ==  34747450808:
+        if sender ==  34640520819:
             messages = []
-            messages = Messages.objects.filter(user = "Angel")
+            messages = Messages.objects.filter(user = "aritzjl")
             if not messages:
                 
                 context = {
@@ -419,11 +419,11 @@ def webhook(request):
                     message = re.sub(message_regex, '', line).strip()
                     # Si el mensaje fue enviado por Angel
                     if line.startswith('Angel'):
-                        mensaje = Messages.objects.create(user = "Angel", text = message, bygpt = False)
+                        mensaje = Messages.objects.create(user = "aritzjl", text = message, bygpt = False)
                         mensaje.save()
                     # Si el mensaje fue enviado por Aritz
                     else:
-                        mensaje = Messages.objects.create(user = "Angel", text = message, bygpt = True)
+                        mensaje = Messages.objects.create(user = "aritzjl", text = message, bygpt = True)
                         mensaje.save()      
             mensajes = []
             for message in messages:
@@ -442,7 +442,7 @@ def webhook(request):
             text = response_content,  
             created =   models.DateTimeField(auto_now_add=True),
             bygpt = True,
-            user = "Angel"
+            user = "aritzjl"
             )
             webhook_url = 'https://secret-counselor-58lp.onrender.com/wsppwebhook/'
             messenger = WhatsApp('EAAIqRBAuZCO8BAEaAqyqrgXgeswH0epGfiHLKgZCJZCrAvVTarWQT2OLFGkGSqJ4tr1ZADLM5lgZAa9lfUogmzS7Xplg4vI8gShzYCAp1nZAHlNBEvpLlaZBfkF7NZCghE8tD6tWKtjAMqOJdyeBFoZAPrufPcgZCz1xyQAhvBs0ldq94vkCKLfd6E92RDTIdDbtXXtHycZB8er68crz2jFlsZAO',phone_number_id='104311552638205')
