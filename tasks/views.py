@@ -363,7 +363,8 @@ def remove_contact(request,user2):
 def webhook(request):
     if request.method == 'POST':
         print("Data received from Webhook is: ", request.body)
-        print(request.body)
+        print(request.hub_challenge)
+        HttpResponse(request.hub_challenge)
         return HttpResponse(status=200)   
     else:
         return HttpResponse(status=200)   
