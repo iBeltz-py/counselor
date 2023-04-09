@@ -371,7 +371,7 @@ def webhook(request):
         body = json.loads(request.body.decode('utf-8'))
 
         # Check the Incoming webhook message
-        payload = json.dumps(body, indent=2)
+        print(json.dumps(body, indent=2))
 
         # Check if the request is from WhatsApp API
         if body.get('object') == 'page':
@@ -384,6 +384,7 @@ def webhook(request):
                         text = message['text']['body']
 
         # Print sender and message text
+        
         print("Sender: ", sender)
         print("Text: ", text)    
         return HttpResponse(status=200)
