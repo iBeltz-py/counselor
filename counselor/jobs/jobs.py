@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 import random
 from tasks.models import CounselorData, Task, Messages
 import openai
-from heyoo import WhatsApp
+from django.core.mail import send_mail
 
 def schedule_api():
     print("START TASK")
@@ -116,8 +116,14 @@ def assign_task(user):
     )
     
     new_task.save()  
-    #tasks = Task.objects.filter(user = user.username, datecompleted__isnull=True)
-    messenger = WhatsApp('EAAIqRBAuZCO8BAEaAqyqrgXgeswH0epGfiHLKgZCJZCrAvVTarWQT2OLFGkGSqJ4tr1ZADLM5lgZAa9lfUogmzS7Xplg4vI8gShzYCAp1nZAHlNBEvpLlaZBfkF7NZCghE8tD6tWKtjAMqOJdyeBFoZAPrufPcgZCz1xyQAhvBs0ldq94vkCKLfd6E92RDTIdDbtXXtHycZB8er68crz2jFlsZAO',phone_number_id='104311552638205')
-# For sending a Text messages
-    messenger.send_message('Hello, Secret Counselor has assigned you a new task.', '34640520819')
+    subject = "NEW TASK!"
+    message = """
+        Se te ha asignado una tarea nueva, revísala en:
+        https://secret-counselor-58lp.onrender.com/tasks/
+    
+    """
+    
+    email_from=EMAIL_HOST_USER
+    recipient_list = [uid.email]
+    send_mail(subject,message,email_from,recipient_list)
     return
