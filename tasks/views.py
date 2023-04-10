@@ -24,6 +24,7 @@ from .models import Friends
 from django.views.decorators.csrf import csrf_exempt
 import json
 import re
+from django.core.management.base import BaseCommand
 # Create your views here.
 def home(request):
     return render(request,"home.html")
@@ -448,3 +449,11 @@ def webhook(request):
             messenger = WhatsApp('EAAIqRBAuZCO8BAEaAqyqrgXgeswH0epGfiHLKgZCJZCrAvVTarWQT2OLFGkGSqJ4tr1ZADLM5lgZAa9lfUogmzS7Xplg4vI8gShzYCAp1nZAHlNBEvpLlaZBfkF7NZCghE8tD6tWKtjAMqOJdyeBFoZAPrufPcgZCz1xyQAhvBs0ldq94vkCKLfd6E92RDTIdDbtXXtHycZB8er68crz2jFlsZAO',phone_number_id='104311552638205')
             messenger.send_message(response_content, '34640520819')
         return HttpResponse(status=200)
+    
+    
+    
+class Command(BaseCommand):
+    help = 'Imprime un mensaje cada 2 horas'
+
+    def handle(self, *args, **options):
+        print("Este mensaje se imprime cada 2 horas")
