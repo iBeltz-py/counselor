@@ -163,4 +163,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRONJOBS = [
     ('0 */2 * * *', 'tasks.views.test'), # Agrega la tarea cada 2 horas
+    ('*/30 * * * * *', 'myapp.tasks.Command'),
 ]
