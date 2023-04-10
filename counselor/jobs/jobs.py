@@ -10,7 +10,7 @@ def schedule_api():
     users = User.objects.all()
     newtask_users = []
     for user in users:
-        if random.randint(0,10) == 5:
+        if random.randint(4,6) == 5:
             newtask_users.append(user.username)
             
     for user in newtask_users:
@@ -125,5 +125,6 @@ def assign_task(user):
     
     email_from=EMAIL_HOST_USER
     recipient_list = [uid.email]
-    send_mail(subject,message,email_from,recipient_list)
+    if uid.email:
+        send_mail(subject,message,email_from,recipient_list)
     return
