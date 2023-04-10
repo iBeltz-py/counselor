@@ -18,6 +18,6 @@ def schedule_api():
     
     
 def assign_task(user):
-    user = User.objects.filter(username = user)
+    user = User.objects.filter(username = user)["User"]
     print(user)
     return
