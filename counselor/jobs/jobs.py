@@ -109,10 +109,12 @@ def assign_task(user):
          model = "gpt-3.5-turbo", messages = mensajes,
     ) 
     title = response.choices[0].message.content 
+    uid = User.objects.get(id=uid)
     print(title)     
     new_task = Task(
         title = title, description=task, bygpt = True, user = uid
     )
+    
     new_task.save()  
     #tasks = Task.objects.filter(user = user.username, datecompleted__isnull=True)
     return
