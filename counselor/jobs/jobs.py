@@ -10,7 +10,7 @@ def schedule_api():
     newtask_users = []
     for user in users:
         if random.randint(0,10) == 5:
-            newtask_users.appen(user.username)
+            newtask_users.append(user.username)
             
     for user in newtask_users:
         assign_task(user)
