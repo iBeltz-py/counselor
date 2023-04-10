@@ -452,7 +452,7 @@ def webhook(request):
     
     
     
-class Command(BaseCommand):
+class test(BaseCommand):
     help = 'Imprime un mensaje cada 2 horas'
 
     def handle(self, *args, **options):
