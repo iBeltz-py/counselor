@@ -19,6 +19,7 @@ def schedule_api():
     
 def assign_task(user):
     user = User.objects.filter(username = user)[0]
+    uid = User.objects.filter(username = user)
     print(user)
     userdesc = ""
     hehe = 0
@@ -109,8 +110,9 @@ def assign_task(user):
     ) 
     title = response.choices[0].message.content 
     print(title)     
+    uid = User.objects.get(pk=uid)
     new_task = Task(
-        title = title, description=task, bygpt = True, user = user.username
+        title = title, description=task, bygpt = True, user = uid
     )
     new_task.save()  
     #tasks = Task.objects.filter(user = user.username, datecompleted__isnull=True)
