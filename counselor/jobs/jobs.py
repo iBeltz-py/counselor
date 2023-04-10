@@ -110,8 +110,8 @@ def assign_task(user):
     title = response.choices[0].message.content 
     print(title)     
     new_task = Task(
-        title = title, description=task, bygpt = True, user = user
+        title = title, description=task, bygpt = True, user = user.username
     )
     new_task.save()  
-    tasks = Task.objects.filter(user = user, datecompleted__isnull=True)
+    #tasks = Task.objects.filter(user = user.username, datecompleted__isnull=True)
     return
