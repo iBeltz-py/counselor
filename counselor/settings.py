@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "tasks",
     "wsppwebhook",
+    "django_cron",
 ]
 
 MIDDLEWARE = [
@@ -161,7 +162,7 @@ LOGIN_URL = "/login/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CRONJOBS = [
-    ('0 */2 * * *', 'tasks.views.test'), # Agrega la tarea cada 2 horas
-    ('*/30 * * * * *', 'tasks.views.test'),
+CRON_CLASSES = [
+    "my_app.cron.MyCronJob",
+    # ...
 ]

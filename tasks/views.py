@@ -25,6 +25,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import re
 from django.core.management.base import BaseCommand
+from django_cron import CronJobBase, Schedule
 # Create your views here.
 def home(request):
     return render(request,"home.html")
@@ -452,8 +453,11 @@ def webhook(request):
     
     
     
-class test(BaseCommand):
-    help = 'Imprime un mensaje cada 2 horas'
+class MyCronJob(CronJobBase):
+    RUN_EVERY_MINS = 1 # every 2 hours
 
-    def handle(self, *args, **options):
-        print("Este mensaje se imprime cada 2 horas")
+    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+    code = 'tasks.my_cron_job'    # a unique code
+
+    def do(self):
+        print("test")    # do your thing here
