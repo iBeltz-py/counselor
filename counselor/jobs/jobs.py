@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 import random
 from tasks.models import CounselorData, Task, Messages
 import openai
-
+from heyoo import WhatsApp
 
 def schedule_api():
     print("START TASK")
@@ -117,4 +117,8 @@ def assign_task(user):
     
     new_task.save()  
     #tasks = Task.objects.filter(user = user.username, datecompleted__isnull=True)
+    webhook_url = 'https://receptive-futuristic-aura.glitch.me/webhook'
+    messenger = WhatsApp('EAAIqRBAuZCO8BAEaAqyqrgXgeswH0epGfiHLKgZCJZCrAvVTarWQT2OLFGkGSqJ4tr1ZADLM5lgZAa9lfUogmzS7Xplg4vI8gShzYCAp1nZAHlNBEvpLlaZBfkF7NZCghE8tD6tWKtjAMqOJdyeBFoZAPrufPcgZCz1xyQAhvBs0ldq94vkCKLfd6E92RDTIdDbtXXtHycZB8er68crz2jFlsZAO',phone_number_id='104311552638205')
+# For sending a Text messages
+    messenger.send_message('Hello, Secret Counselor has assigned you a new task.', '34640520819')
     return
