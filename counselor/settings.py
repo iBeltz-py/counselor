@@ -49,9 +49,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
     "tasks",
     "wsppwebhook",
-    "django_cron",
 ]
 
 MIDDLEWARE = [
@@ -162,7 +162,6 @@ LOGIN_URL = "/login/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CRON_CLASSES = [
-    "tasks.views.cron.MyCronJob",
-    # ...
+CRONJOBS = [
+    ('*/1 * * * *', 'tasks.cron.my_scheduled_job')
 ]
