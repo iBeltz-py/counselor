@@ -123,7 +123,7 @@ def assign_task(user):
     
     """
     
-    email_from=EMAIL_HOST_USER
+    email_from=settings.settings.EMAIL_HOST_USER
     recipient_list = [uid.email]
     if uid.email:
         send_mail(subject,message,email_from,recipient_list)
