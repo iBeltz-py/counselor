@@ -64,8 +64,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django_crontab.CronJobMiddleware',
-
 ]
 
 ROOT_URLCONF = 'counselor.urls'
