@@ -53,7 +53,7 @@ def assign_task(user):
         #mensaje.append(new_message)    
         
         response = openai.ChatCompletion.create(
-            model = "gpt-3.5-turbo", messages = mensaje,
+            model = "gpt-3.5-turbo", messages = mensaje, 
         ) 
         userdesc = response.choices[0].message.content 
         print(userdesc)
@@ -106,7 +106,7 @@ def assign_task(user):
     }
     mensajes.append(context3)
     response = openai.ChatCompletion.create(
-         model = "gpt-3.5-turbo", messages = mensajes,
+         model = "gpt-3.5-turbo", messages = mensajes, max_tokens = 99, temperature = 0
     ) 
     title = response.choices[0].message.content 
     uid = User.objects.get(id=uid)
