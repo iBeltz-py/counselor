@@ -9,4 +9,3 @@ python manage.py crontab add
 python manage.py crontab show
 python manage.py collectstatic --no-input
 python manage.py migrate
-python manage.py runcrons
