@@ -17,6 +17,7 @@ def schedule_api():
     
     
 def assign_task(user):
+    user = User.objects.filter(username = user)
     userdesc = ""
     hehe = 0
     if hehe:
