@@ -163,6 +163,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CRON_CLASSES = [
-    "my_app.cron.MyCronJob",
+    "tasks.cron.MyCronJob",
     # ...
 ]
