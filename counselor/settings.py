@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-from django.core.management.base import BaseCommand
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_crontab',
+    'django_apscheduler',
     "tasks",
     "wsppwebhook",
 ]
@@ -162,11 +162,5 @@ LOGIN_URL = "/login/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CRONJOBS = [
-    ('*/1 * * * *', 'django.core.management.call_command', ['my_custom_command']),
-]
 
-# Define the custom command in a management/commands directory
-class Command(BaseCommand):
-    def handle(self, *args, **options):
-        print("Hello from my custom command")
+
