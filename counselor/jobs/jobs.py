@@ -128,8 +128,8 @@ def assign_task(user):
     """
     
     if uid.email:
-        email_emisor = "secret.counselor.services@gmail.com"
-        email_contra = "2maracas1"
+        email_emisor = "beltz.auto@gmail.com"
+        email_contra = "shxcsgrnsbnsgrgx"
         email_receptor = uid.email
 
         email_subject = "New Task"
