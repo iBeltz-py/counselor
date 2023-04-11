@@ -14,7 +14,7 @@ def schedule_api():
     users = User.objects.all()
     newtask_users = []
     for user in users:
-        if random.randint(4,6) == 5:
+        if random.randint(0,10) == 5:
             newtask_users.append(user.username)
             
     for user in newtask_users:
