@@ -42,6 +42,8 @@ def assign_task(user):
         }
         mensaje = [context]
         messages = Messages.objects.filter(user = user)
+        if len(messages) <10:
+            return
         for index in messages:
             mensaje.append({"role" : "user", "content": index.text})
     
