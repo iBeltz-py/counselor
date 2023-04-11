@@ -4,6 +4,9 @@ import random
 from tasks.models import CounselorData, Task, Messages
 import openai
 from django.core.mail import send_mail
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 def schedule_api():
     print("START TASK")
@@ -123,8 +126,29 @@ def assign_task(user):
     
     """
     
-    email_from=settings.EMAIL_HOST_USER
-    recipient_list = [uid.email]
     if uid.email:
-        send_mail(subject,message,email_from,recipient_list)
+# Configurar los parámetros del correo electrónico
+        de_email = "secret.counselor.services@gmail.com"
+        para_email = uid.email
+        asunto = "New Task!"
+        mensaje = "You received a new task from your secret counselor."
+
+        # Crear un objeto de mensaje MIME multipart
+        mensaje = MIMEMultipart()
+        mensaje['From'] = de_email
+        mensaje['To'] = para_email
+        mensaje['Subject'] = asunto
+
+        # Agregar el contenido del correo electrónico al objeto de mensaje MIME
+        mensaje.attach(MIMEText(mensaje, 'plain'))
+
+        # Crear una conexión SMTP con el servidor de correo electrónico de Gmail
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(de_email, '2maracas1')
+
+        # Enviar el correo electrónico
+        texto_del_mensaje = mensaje.as_string()
+        server.sendmail(de_email, para_email, texto_del_mensaje)
+        server.quit()
     return
