@@ -4,9 +4,10 @@ import random
 from tasks.models import CounselorData, Task, Messages
 import openai
 from django.core.mail import send_mail
+from email.message import EmailMessage
+import ssl
 import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import imghdr
 
 def schedule_api():
     print("START TASK")
@@ -127,28 +128,21 @@ def assign_task(user):
     """
     
     if uid.email:
-# Configurar los parámetros del correo electrónico
-        de_email = "secret.counselor.services@gmail.com"
-        para_email = uid.email
-        asunto = "New Task!"
-        mensaje = "You received a new task from your secret counselor."
+        email_emisor = "secret.counselor.services@gmail.com"
+        email_contra = "2maracas1"
+        email_receptor = uid.email
 
-        # Crear un objeto de mensaje MIME multipart
-        mensaje = MIMEMultipart()
-        mensaje['From'] = de_email
-        mensaje['To'] = para_email
-        mensaje['Subject'] = asunto
-
-        # Agregar el contenido del correo electrónico al objeto de mensaje MIME
-        mensaje.attach(MIMEText(mensaje, 'plain'))
-
-        # Crear una conexión SMTP con el servidor de correo electrónico de Gmail
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(de_email, '2maracas1')
-
-        # Enviar el correo electrónico
-        texto_del_mensaje = mensaje.as_string()
-        server.sendmail(de_email, para_email, texto_del_mensaje)
-        server.quit()
+        email_subject = "New Task"
+        email_body = """
+            Your secret counselor has assigned you a new task.
+        """
+        em = EmailMessage()
+        em["From"] = email_emisor
+        em["To"] = email_emisor
+        em["Subject"] = email_subject
+        em.set_content(email_body)
+        contexto = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=contexto) as mensaje:
+            mensaje.login(email_emisor, email_contra)
+            mensaje.sendmail(email_emisor,email_receptor,em.as_string())
     return
