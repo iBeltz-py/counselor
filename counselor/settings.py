@@ -102,7 +102,7 @@ DATABASES = {
         'NAME': 'dbempleado',
         'USER': 'beltz',
         'PASSWORD': '2maracas1',
-        'HOST': 'localhost',
+        'HOST': 'postgres://birschhn:gWhw2Fx75s2M918LMnFXDXE1aMKTJV4Q@balarama.db.elephantsql.com/birschhn',
         'PORT': '5432',
     }
 }
